@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import LettersBox from "./LettersBox";
-import initialData from "../config/datas";
+import initialData from "../../config/datas";
 
 export default function Exercise() {
     const [datas, setDatas] = useState(initialData);

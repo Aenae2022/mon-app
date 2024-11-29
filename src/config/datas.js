@@ -1,4 +1,5 @@
 const initialData = {
+    word: "bonjour",
     letters: {
       "letter-1": { id: "letter-1", content: "b" },
       "letter-2": { id: "letter-2", content: "o" },
@@ -25,6 +26,9 @@ const initialData = {
     // Pour mieux organiser nos futures colonnes
     lettersBoxOrder: ["letterBox-1", "letterBox-2"],
     answer:['b','o','n','j','o','u','r'],
+    sentences:{
+      "sentence-1": {id:"sentence-1", content:'Bonjour le monde !'},
+    },
   }
   
   export default initialData
