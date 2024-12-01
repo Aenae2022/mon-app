@@ -1,0 +1,14 @@
+.exercise{
+    border: 3px green solid;
+    margin: 10px;
+    border-radius: 30px;
+    box-shadow: 20px 20px 10px darkgrey;
+    padding-right: 50px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            border-right: 6px ridge rgb(0, 206, 0);
+            border-bottom: 6px ridge rgb(0, 206, 0);;
+            border-top: 6px ridge rgb(209, 10, 209);
+            border-left: 6px ridge rgb(209, 10, 209);;
+            margin : auto;
+  }

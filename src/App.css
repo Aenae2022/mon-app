@@ -7,11 +7,7 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-.exercise{
-  border: 3px green solid;
-  margin: 10px;
-  border-radius: 15px;
-}
+
 
 .lettersContainer{
   display: flex;
