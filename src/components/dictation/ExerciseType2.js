@@ -10,6 +10,7 @@ export default function ExerciseType2({
   word,
   additionalLetters,
   nextExercise,
+  setValidate, setRetry, setNext, setStatus
 }) {
   let navigate = useNavigate()
   const myLetters = word + additionalLetters
@@ -48,58 +49,6 @@ export default function ExerciseType2({
   }
   const [lettersBox, setLettersBox] = useState(initialLettersBox)
 
-  const [status, setStatus] = useState("working") //working || ok || nope
-
-  const newTarget = () => {
-    if (status === "working") {
-      return (
-        <input
-          className="buttonExercise"
-          type="button"
-          value="Valider"
-          onClick={handleClickValider}
-        />
-      )
-    } else if (status === "nope") {
-      return (
-        <>
-          <img
-            className="imgExercise"
-            src="/asset/picture/icons/faux.png"
-            alt="erreur"
-          /><br/>
-          <input
-            className="buttonExercise"
-            type="button"
-            value="recommencer"
-            onClick={handleClickRecommencer}
-          />
-        </>
-      )
-    } else {
-      return (
-        <>
-          <img
-            className="imgExercise"
-            src="/asset/picture/icons/vrai.png"
-            alt="bonne réponse"
-          /><br/>
-          <input
-            className="buttonExercise"
-            type="button"
-            value="recommencer"
-            onClick={handleClickRecommencer}
-          />
-          <input
-            className="buttonExercise"
-            type="button"
-            value={nextExercise === 0 ? "Terminer" : "Suivant"}
-            onClick={handleClickNext}
-          />
-        </>
-      )
-    }
-  }
 
   const handleDrop = (item, targetBoxId, targetIndex) => {
     setLettersBox((prevDatas) => {
@@ -154,7 +103,8 @@ export default function ExerciseType2({
     })
   }
 
-  const handleClickValider = () => {
+  React.useEffect(() => {
+    setValidate(() => () => {
     const studentAnswer = lettersBox["letterBox-2"].letterIds
       .map((lId) => {
         return letters[lId].content
@@ -167,26 +117,27 @@ export default function ExerciseType2({
     } else {
       setStatus("nope")
     }
-  }
-  const handleClickRecommencer = () => {
+  });
+  setRetry(() => () => {
     console.log("Recommencer")
     setLettersBox(() => {
       setStatus("working")
       return initialLettersBox
     })
-  }
+  });
 
-  const handleClickNext = () => {
+  setNext(() => () => {
     let redirection = "/"
     if (nextExercise !== 0) {
       redirection = "/dictation/:exercise" + nextExercise
     }
     navigate(redirection)
-  }
+    });
+  }, [setValidate, setRetry, setNext]);
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="exercise">
+      
         <h3>Ecris le mot à apprendre à l'aide des lettres proposées</h3>
         {lettersBoxOrder.map((letterBoxId) => {
           const letterBox = lettersBox[letterBoxId]
@@ -199,15 +150,10 @@ export default function ExerciseType2({
               letterBox={letterBox}
               letters={myLetters}
               onDrop={handleDrop}
-              status={status}
             />
           )
         })}
-        <div className="exerciseNav">
-        {newTarget()}
-        </div>
-        
-      </div>
+       
     </DndProvider>
   )
 }

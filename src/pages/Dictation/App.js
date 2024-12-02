@@ -2,6 +2,7 @@ import "../../App.css"
 import Exercise from "../../components/dictation/Exercise"
 import ExerciseType1 from "../../components/dictation/ExerciseType1"
 import ExerciseType2 from "../../components/dictation/ExerciseType2"
+import ExerciseType3 from "../../components/dictation/ExerciseType3"
 import { useParams } from "react-router"
 import React, { useState } from "react"
 import initialDatas from "../../config/dictation/words/bonjourDatas"
@@ -34,14 +35,7 @@ function App() {
     
     let component
     if (componentName === "ExerciseType1") {
-      component = (
-        <Exercise
-          onValidate={onValidate}
-          onRetry={onRetry}
-          onNext={onNext}
-          nextExercise={nextExercise}
-          status={status}
-        >
+      component = ( 
           <ExerciseType1
             word={datas.word}
             nextExercise={nextExercise}
@@ -51,10 +45,9 @@ function App() {
             status={status}
             setStatus={setStatus}
           />
-        </Exercise>
       )
     }
-    if (componentName === "ExerciseType2") {
+    else if (componentName === "ExerciseType2") {
       component = (
         <ExerciseType2
           word={datas.word}
@@ -62,13 +55,52 @@ function App() {
             datas.exercises["exercise-" + exercise].additionalLetters
           }
           nextExercise={nextExercise}
+            setValidate={setValidate}
+            setRetry={setRetry}
+            setNext={setNext}
+            status={status}
+            setStatus={setStatus}
         />
+      )
+    }
+    else if (componentName === "ExerciseType3") {
+      component = ( 
+        <ExerciseType3
+          word={datas.word}
+          nextExercise={nextExercise}
+          setValidate={setValidate}
+          setRetry={setRetry}
+          setNext={setNext}
+          status={status}
+          setStatus={setStatus}
+        />
+    )
+    }
+    else if (componentName === "ExerciseType4") {
+      component = ( 
+          <ExerciseType4
+            word={datas.word}
+            nextExercise={nextExercise}
+            setValidate={setValidate}
+            setRetry={setRetry}
+            setNext={setNext}
+            status={status}
+            setStatus={setStatus}
+          />
       )
     }
     return (
       <div className="App">
         <TitleExercise text={titleExercise} soundSrc={datas.audioSrc} />
-        {component}
+        <Exercise
+          onValidate={onValidate}
+          onRetry={onRetry}
+          onNext={onNext}
+          nextExercise={nextExercise}
+          status={status}
+        >
+          {component}
+          </Exercise>
       </div>
     )
   } else {
