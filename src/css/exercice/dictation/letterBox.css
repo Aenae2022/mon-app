@@ -1,0 +1,49 @@
+.lettersContainer{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 10px; /* Espace entre les lettres */
+    transition: all 0.2s ease;
+    background-color: aliceblue;
+    min-height: 70px;
+  }
+
+  .lettersBox{
+    padding: 10px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  
+  .lettersBox.active {
+    border-color: #00f; /* Mettre en surbrillance la zone active */
+    background-color: #f0f8ff;
+  }
+
+  .lettersBox.active .letter {
+    transform: scale(0.95); /* Réduire légèrement les lettres pour indiquer l'espace */
+  }
+  .reponse { 
+    border-bottom: 3px dashed rgb(95, 95, 95);
+  }
+
+  .letter{
+    background-color: azure;
+    font-size: 2em;
+    border: 1px solid darkslategrey;
+    border-radius: 5px;
+    margin: 1px;
+    padding: 10px;
+    transition: transform 0.2s ease;
+  }
+  
+  
+  
+  
+  
+  .placeholder {
+    height: 40px; /* Taille similaire à une lettre */
+    background: rgba(0, 0, 255, 0.1); /* Indique où l'élément sera inséré */
+    border: 2px dashed #00f; /* Bordure visible */
+    margin: 5px 0;
+  }

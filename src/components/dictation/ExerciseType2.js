@@ -2,25 +2,113 @@ import React, { useState, useRef } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import LettersBox from "./LettersBox"
-import initialData from "../../config/datas"
-import { useNavigate } from "react-router"
-import "../../css/exercice/exercice.css"
-let nextExercice = 1;
-export default function ExerciseType2({datas, setDatas}) {
-  
-  //const [result, setResult] = useState(null)
-  const [status, setStatus] = useState("working") //working || ok || nope
+import { useNavigate } from "react-router-dom"
+
+import "../../css/exercice/dictation/exercice.css"
+
+export default function ExerciseType2({
+  word,
+  additionalLetters,
+  nextExercise,
+}) {
   let navigate = useNavigate()
-  const handleDrop = (item, targetBoxId, targetIndex) => {
-    setDatas((prevDatas) => {
-      const sourceBoxId = Object.keys(prevDatas.lettersBox).find((boxId) =>
-        prevDatas.lettersBox[boxId].letterIds.includes(item.id),
+  const myLetters = word + additionalLetters
+  const letters = myLetters.split("").reduce((acc, char, index) => {
+    const id = `letter-${index + 1}`
+    acc[id] = {
+      id,
+      content: char,
+    }
+    return acc
+  }, {})
+  const letterIds = Object.keys(letters)
+  const lettersBoxOrder = ["letterBox-1", "letterBox-2"]
+
+  // Fonction de mélange (Fisher-Yates Shuffle)
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)) // Index aléatoire entre 0 et i
+      ;[array[i], array[j]] = [array[j], array[i]] // Échange des éléments
+    }
+    return array
+  }
+
+  const shuffledLetterIds = shuffleArray([...letterIds]) // Copie du tableau pour préserver l'original
+  const initialLettersBox = {
+    "letterBox-1": {
+      id: "letterBox-1",
+      title: "Lettres proposées",
+      letterIds: shuffledLetterIds,
+    },
+    "letterBox-2": {
+      id: "letterBox-2",
+      title: "Réponse",
+      letterIds: [],
+    },
+  }
+  const [lettersBox, setLettersBox] = useState(initialLettersBox)
+
+  const [status, setStatus] = useState("working") //working || ok || nope
+
+  const newTarget = () => {
+    if (status === "working") {
+      return (
+        <input
+          className="buttonExercise"
+          type="button"
+          value="Valider"
+          onClick={handleClickValider}
+        />
       )
+    } else if (status === "nope") {
+      return (
+        <>
+          <img
+            className="imgExercise"
+            src="/asset/picture/icons/faux.png"
+            alt="erreur"
+          />
+          <input
+            className="buttonExercise"
+            type="button"
+            value="recommencer"
+            onClick={handleClickRecommencer}
+          />
+        </>
+      )
+    } else {
+      return (
+        <>
+          <img
+            className="imgExercise"
+            src="/asset/picture/icons/vrai.png"
+            alt="bonne réponse"
+          />
+          <input
+            className="buttonExercise"
+            type="button"
+            value="recommencer"
+            onClick={handleClickRecommencer}
+          />
+          <input
+            className="buttonExercise"
+            type="button"
+            value={nextExercise === 0 ? "Terminer" : "Suivant"}
+            onClick={handleClickNext}
+          />
+        </>
+      )
+    }
+  }
 
-      const newSourceBoxIds = prevDatas.lettersBox[
-        sourceBoxId
-      ].letterIds.filter((letterId) => letterId !== item.id)
-
+  const handleDrop = (item, targetBoxId, targetIndex) => {
+    setLettersBox((prevDatas) => {
+      const sourceBoxId = Object.keys(prevDatas).find((boxId) =>
+        prevDatas[boxId].letterIds.includes(item.id),
+      )
+      const newSourceBoxIds = prevDatas[sourceBoxId].letterIds.filter(
+        (letterId) => letterId !== item.id,
+      )
       //si déplacement intra lettersBox
       if (sourceBoxId === targetBoxId) {
         const nextSourceBoxIds = [
@@ -34,17 +122,14 @@ export default function ExerciseType2({datas, setDatas}) {
 
         return {
           ...prevDatas,
-          lettersBox: {
-            ...prevDatas.lettersBox,
-            [sourceBoxId]: {
-              ...prevDatas.lettersBox[sourceBoxId],
-              letterIds: nextSourceBoxIds,
-            },
+          [sourceBoxId]: {
+            ...prevDatas[sourceBoxId],
+            letterIds: nextSourceBoxIds,
           },
         }
       } else {
         //déplacement inter lettersBox
-        const newTargetBoxIds = prevDatas.lettersBox[targetBoxId].letterIds
+        const newTargetBoxIds = prevDatas[targetBoxId].letterIds
         const nextTargetBoxIds = [
           // Éléments avant le point d’insertion :
           ...newTargetBoxIds.slice(0, targetIndex),
@@ -53,84 +138,31 @@ export default function ExerciseType2({datas, setDatas}) {
           // Éléments après le point d’insertion :
           ...newTargetBoxIds.slice(targetIndex),
         ]
-        const nextDatas = {
-          ...prevDatas,
-          lettersBox: {
-            ...prevDatas.lettersBox,
-            [sourceBoxId]: {
-              ...prevDatas.lettersBox[sourceBoxId],
-              letterIds: newSourceBoxIds,
-            },
-            [targetBoxId]: {
-              ...prevDatas.lettersBox[targetBoxId],
-              letterIds: nextTargetBoxIds,
-            },
-          },
-        }
 
         return {
           ...prevDatas,
-          lettersBox: {
-            ...prevDatas.lettersBox,
-            [sourceBoxId]: {
-              ...prevDatas.lettersBox[sourceBoxId],
-              letterIds: newSourceBoxIds,
-            },
-            [targetBoxId]: {
-              ...prevDatas.lettersBox[targetBoxId],
-              letterIds: nextTargetBoxIds,
-            },
+          [sourceBoxId]: {
+            ...prevDatas[sourceBoxId],
+            letterIds: newSourceBoxIds,
+          },
+          [targetBoxId]: {
+            ...prevDatas[targetBoxId],
+            letterIds: nextTargetBoxIds,
           },
         }
       }
     })
   }
-  const newTarget = () => {
-    if (status === "working") {
-      return (
-        <input type="button" value="valider" onClick={handleClickValider} />
-      )
-    } else if (status === "nope") {
-      return (
-        <>
-          <img src="/asset/picture/icons/faux.png" alt="erreur" />
-          <input
-            type="button"
-            value="recommencer"
-            onClick={handleClickRecommencer}
-          />
-        </>
-      )
-    } else {
-      return(
-      <>
-        <img src="/asset/picture/icons/vrai.png" alt="bonne réponse" />
-        <input type="button" value="suivant" onClick={handleClickNext} />
-      </>)
-    }
-  }
 
   const handleClickValider = () => {
-    console.log("Valider")
-    const studentAnswer = datas.lettersBox["letterBox-2"].letterIds
+    const studentAnswer = lettersBox["letterBox-2"].letterIds
       .map((lId) => {
-        return datas.letters[lId].content
+        return letters[lId].content
       })
       .toString()
-    console.log(
-      "réponse attendue : " +
-        datas.answer +
-        " de type : " +
-        typeof datas.answer,
-    )
-    console.log(
-      "réponse donnée : " +
-        studentAnswer +
-        " de type : " +
-        typeof studentAnswer,
-    )
+      .replace(/,/g, "")
 
-    if (studentAnswer === datas.answer) {
+    if (studentAnswer === word) {
       setStatus("ok")
     } else {
       setStatus("nope")
@@ -138,40 +170,43 @@ export default function ExerciseType2({datas, setDatas}) {
   }
   const handleClickRecommencer = () => {
     console.log("Recommencer")
-    setDatas(() => {
+    setLettersBox(() => {
       setStatus("working")
-      return initialData
+      return initialLettersBox
     })
   }
 
   const handleClickNext = () => {
-    const redirection = '/dictation/:exercice'+ nextExercice;
-    //const redirection = "/"
-
+    let redirection = "/"
+    if (nextExercise !== 0) {
+      redirection = "/dictation/:exercise" + nextExercise
+    }
     navigate(redirection)
   }
-
-  console.log("status : " + status)
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="exercise">
-        {datas.lettersBoxOrder.map((letterBoxId) => {
-          const letterBox = datas.lettersBox[letterBoxId]
-          const letters = letterBox.letterIds.map(
-            (letterId) => datas.letters[letterId],
+        <h3>Ecris le mot à apprendre à l'aide des lettres proposées</h3>
+        {lettersBoxOrder.map((letterBoxId) => {
+          const letterBox = lettersBox[letterBoxId]
+          const myLetters = letterBox.letterIds.map(
+            (letterId) => letters[letterId],
           )
           return (
             <LettersBox
               key={letterBox.id}
               letterBox={letterBox}
-              letters={letters}
+              letters={myLetters}
               onDrop={handleDrop}
               status={status}
             />
           )
         })}
+        <div className="exerciseNav">
         {newTarget()}
+        </div>
+        
       </div>
     </DndProvider>
   )

@@ -3,6 +3,16 @@ const initialData = {
   exercises: {
     "exercice-1": {
       component: 'ExerciseType2',
+      letters: {
+        "letter-1": { id: "letter-1", content: "b" },
+        "letter-2": { id: "letter-2", content: "o" },
+        "letter-3": { id: "letter-3", content: "n" },
+        "letter-4": { id: "letter-4", content: "j" },
+        "letter-5": { id: "letter-5", content: "o" },
+        "letter-6": { id: "letter-6", content: "u" },
+        "letter-7": { id: "letter-7", content: "r" },
+        "letter-8": { id: "letter-8", content: "s" },
+      },
     },
   },
   letters: {

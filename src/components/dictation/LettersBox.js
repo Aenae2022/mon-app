@@ -1,52 +1,11 @@
 import React, { useState, useRef, useEffect } from "react"
 import { useDrop } from "react-dnd"
 import Letter from "./Letter"
+import "../../css/exercice/dictation/letterBox.css"
 
 function LettersBox({ letterBox, letters, onDrop }) {
-  const [targetIndex, setTargetIndex] = useState(null)
   const containerRef = useRef(null) // Initialisation de la référence pour le conteneur
-  const lettersRef = useRef(letters)
-  const validationRef = useRef(null)
-  //maj LettersRef à chaque maj de Letters
-  useEffect(() => {
-    lettersRef.current = letters
-  }, [letters])
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "LETTER",
-    hover: (item, monitor) => {
-      if (!containerRef.current) return // Valide si le conteneur est attaché
-
-      const offset = monitor.getClientOffset()
-      if (!offset) return // Vérifie que l'offset est défini
-      // Utilise `requestAnimationFrame` pour attendre que le DOM se stabilise
-      requestAnimationFrame(() => {
-        const index = calculateTargetIndex(
-          offset,
-          lettersRef.current,
-          containerRef,
-        )
-        if (targetIndex !== index || index === 0 || index === letters.length) {
-          setTargetIndex(index)
-        }
-      })
-      // Met à jour l'index cible
-    },
-    drop: (item, monitor) => {
-      const offsetd = monitor.getClientOffset()
-      if (!offsetd) return // Vérifie que l'offset est défini
-      const indexd = calculateTargetIndex(
-        offsetd,
-        lettersRef.current,
-        containerRef,
-      )
-      onDrop(item, letterBox.id, indexd) // Passe l'index cible au parent
-      setTargetIndex(null) // Réinitialise après le drop
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }))
+  const [targetIndex, setTargetIndex] = useState(null)
 
   const calculateTargetIndex = (offset) => {
     if (!containerRef.current) return 0
@@ -60,10 +19,6 @@ function LettersBox({ letterBox, letters, onDrop }) {
     // Ajuster l'offset pour le scaling (si présent)
     const adjustedXOffset = (offset.x - containerRect.left) / scaleX
 
-    // console.log("Container Rect:", containerRect);
-    // console.log("Offset x:", offset.x);
-    // console.log("Adjusted Offset X:", adjustedXOffset);
-
     // Parcourt les lettres pour trouver l'index cible
     const children = Array.from(containerRef.current.children)
     for (let i = 0; i < children.length; i++) {
@@ -75,10 +30,36 @@ function LettersBox({ letterBox, letters, onDrop }) {
         return i
       }
     }
-
     return children.length // Si aucune correspondance, retourne à la fin
   }
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "LETTER",
+    hover: (item, monitor) => {
+      if (!containerRef.current) return // Valide si le conteneur est attaché
 
+      const offset = monitor.getClientOffset()
+      if (!offset) return // Vérifie que l'offset est défini
+      // Utilise `requestAnimationFrame` pour attendre que le DOM se stabilise
+      requestAnimationFrame(() => {
+        const index = calculateTargetIndex(offset)
+        if (targetIndex !== index) {
+          console.log("targetIndex :", targetIndex)
+          console.log("index :", index)
+          setTargetIndex(index)
+        }
+      })
+    },
+    drop: (item, monitor) => {
+      const offsetd = monitor.getClientOffset()
+      if (!offsetd) return // Vérifie que l'offset est défini
+      const indexd = calculateTargetIndex(offsetd)
+      onDrop(item, letterBox.id, indexd) // Passe l'index cible au parent
+      setTargetIndex(null) // Réinitialise après le drop*/
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  }))
   return (
     <div className="lettersBox">
       <h2>{letterBox.title}</h2>
@@ -87,7 +68,7 @@ function LettersBox({ letterBox, letters, onDrop }) {
           drop(node)
           containerRef.current = node // Attache `ref` au conteneur
         }}
-        className={`lettersContainer ${isOver ? "active" : ""}`}
+        className={`lettersContainer ${isOver ? "active" : ""} ${letterBox.title === "Réponse" ? "reponse" : ""}`}
       >
         {letters.map((letter, index) => (
           <React.Fragment key={letter.id}>
@@ -98,7 +79,7 @@ function LettersBox({ letterBox, letters, onDrop }) {
         {isOver && targetIndex === letters.length && (
           <div className="placeholder" />
         )}
-        </div>
+      </div>
     </div>
   )
 }
