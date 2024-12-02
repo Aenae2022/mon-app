@@ -67,7 +67,7 @@ export default function ExerciseType2({
             className="imgExercise"
             src="/asset/picture/icons/faux.png"
             alt="erreur"
-          />
+          /><br/>
           <input
             className="buttonExercise"
             type="button"
@@ -83,7 +83,7 @@ export default function ExerciseType2({
             className="imgExercise"
             src="/asset/picture/icons/vrai.png"
             alt="bonne réponse"
-          />
+          /><br/>
           <input
             className="buttonExercise"
             type="button"

@@ -1,11 +1,12 @@
 const initialDatas = {
-  word: "bonjour",
+  word: "ar mor",
   exercises: {
     "exercise-1": {
       component: 'ExerciseType2',
-      additionalLetters: 'mgeesd',
+      additionalLetters: "c'he",
     },
   },
+  audioSrc : './public/asset/audio/exercise/dictation/words/ar_mor.mp3'
  
 
   
