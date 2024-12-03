@@ -1,25 +1,17 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef } from "react"
 import { useDrop } from "react-dnd"
 import Letter from "./Letter"
 import "../../css/exercice/dictation/letterBox.css"
 
 function LettersBox({ letterBox, letters, onDrop }) {
-  const containerRef = useRef(null) // Initialisation de la référence pour le conteneur
+  const containerRef = useRef(null)
   const [targetIndex, setTargetIndex] = useState(null)
 
   const calculateTargetIndex = (offset) => {
     if (!containerRef.current) return 0
-
-    // Dimensions du conteneur
     const containerRect = containerRef.current.getBoundingClientRect()
-
-    // Prendre en compte l'échelle actuelle
     const scaleX = containerRect.width / containerRef.current.offsetWidth
-
-    // Ajuster l'offset pour le scaling (si présent)
     const adjustedXOffset = (offset.x - containerRect.left) / scaleX
-
-    // Parcourt les lettres pour trouver l'index cible
     const children = Array.from(containerRef.current.children)
     for (let i = 0; i < children.length; i++) {
       const letterRect = children[i].getBoundingClientRect()
@@ -30,16 +22,14 @@ function LettersBox({ letterBox, letters, onDrop }) {
         return i
       }
     }
-    return children.length // Si aucune correspondance, retourne à la fin
+    return children.length
   }
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "LETTER",
     hover: (item, monitor) => {
-      if (!containerRef.current) return // Valide si le conteneur est attaché
-
+      if (!containerRef.current) return
       const offset = monitor.getClientOffset()
-      if (!offset) return // Vérifie que l'offset est défini
-      // Utilise `requestAnimationFrame` pour attendre que le DOM se stabilise
+      if (!offset) return
       requestAnimationFrame(() => {
         const index = calculateTargetIndex(offset)
         if (targetIndex !== index) {
@@ -49,10 +39,10 @@ function LettersBox({ letterBox, letters, onDrop }) {
     },
     drop: (item, monitor) => {
       const offsetd = monitor.getClientOffset()
-      if (!offsetd) return // Vérifie que l'offset est défini
+      if (!offsetd) return
       const indexd = calculateTargetIndex(offsetd)
-      onDrop(item, letterBox.id, indexd) // Passe l'index cible au parent
-      setTargetIndex(null) // Réinitialise après le drop*/
+      onDrop(item, letterBox.id, indexd)
+      setTargetIndex(null)
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -64,7 +54,7 @@ function LettersBox({ letterBox, letters, onDrop }) {
       <div
         ref={(node) => {
           drop(node)
-          containerRef.current = node // Attache `ref` au conteneur
+          containerRef.current = node
         }}
         className={`lettersContainer ${isOver ? "active" : ""} ${letterBox.title === "Réponse" ? "reponse" : ""}`}
       >

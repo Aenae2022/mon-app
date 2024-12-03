@@ -1,10 +1,6 @@
-
-
 import "../../css/exercice/dictation/exercice.css"
 
 export default function Exercise({ children, nextExercise, onValidate, onRetry, onNext, status,  }) {
-  
-
   const newTarget = () => {
     if (status === "working") {
       return (
@@ -13,7 +9,6 @@ export default function Exercise({ children, nextExercise, onValidate, onRetry, 
           type="button"
           value="Valider"
           onClick={onValidate}
-          
         />
       )
     } else if (status === "nope") {
@@ -61,7 +56,6 @@ export default function Exercise({ children, nextExercise, onValidate, onRetry, 
 
   return (
     <div className="exercise">
-      
       {children}
       <div className="exerciseNav">{newTarget()}</div>
     </div>

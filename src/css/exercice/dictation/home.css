@@ -1,14 +1,13 @@
-
-#root{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+#root {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-.chooseButton{
-    border-radius: 5px;
-    margin: 10px;
-    font-size: large;
+.chooseButton {
+  border-radius: 5px;
+  margin: 10px;
+  font-size: large;
 }
-.exercise{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

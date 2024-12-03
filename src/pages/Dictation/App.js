@@ -19,11 +19,10 @@ function App() {
   const listWordsToLearn = listWords[listIndex]
   const [status, setStatus] = useState("working") //working || ok || nope
   const [datas, setDatas] = useState([])
-  const [isLoading, setIsLoading] = useState(true); // État de chargement
+  const [isLoading, setIsLoading] = useState(true) // État de chargement
 
   const [onValidate, setValidate] = useState(() => () => {})
   const [onRetry, setRetry] = useState(() => () => {})
-  //const [onNext, setNext] = useState(() => () => {})
 
   useEffect(() => {
     const loadWordDatas = async () => {
@@ -31,18 +30,18 @@ function App() {
         const module = await import(
           `../../config/dictation/words/${listWordsToLearn[wordIndex].src}`
         )
-        setDatas(module.default) 
-        setIsLoading(false);
+        setDatas(module.default)
+        setIsLoading(false)
       } catch (error) {
         console.error("Erreur lors du chargement du fichier :", error)
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
     loadWordDatas()
   }, [listWordsToLearn])
 
   if (isLoading) {
-    return <div className="App">Chargement...</div>;
+    return <div className="App">Chargement...</div>
   }
   if (datas && exercise) {
     let nextExercise
@@ -58,20 +57,24 @@ function App() {
       subtitle: "étape " + exercise + "/" + Object.keys(datas.exercises).length,
     }
 
-    function handleNext(){
-      
-        let redirection = "/dictation/list/"+infoUrl.listIndex
-        if (nextExercise !== 0) {
-          redirection = "/dictation/word/"+infoUrl.listIndex + '/'+infoUrl.wordIndex + '/'+nextExercise
-        }
-        setStatus('working')
-        navigate(redirection)
-        
+    function handleNext() {
+      let redirection = "/dictation/list/" + infoUrl.listIndex
+      if (nextExercise !== 0) {
+        redirection =
+          "/dictation/word/" +
+          infoUrl.listIndex +
+          "/" +
+          infoUrl.wordIndex +
+          "/" +
+          nextExercise
+      }
+      setStatus("working")
+      navigate(redirection)
     }
     const componentName = datas.exercises["exercise-" + exercise].component
 
     let component
-    let infoUrl = {listIndex:listIndex, wordIndex:wordIndex}
+    let infoUrl = { listIndex: listIndex, wordIndex: wordIndex }
     if (componentName === "ExerciseType1") {
       component = (
         <ExerciseType1
