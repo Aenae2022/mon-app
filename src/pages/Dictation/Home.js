@@ -1,6 +1,7 @@
 
 import '../../App.css';
 import "../../css/exercice/dictation/exercice.css"
+import "../../css/exercice/dictation/home.css"
 
 import { useParams } from "react-router"
 import { useEffect, useState } from "react";
@@ -11,9 +12,6 @@ import ListWords from '../../components/dictation/ListWords';
 function Home() {
   let { listWordsIndex } = useParams()
   const listWordsToLearn = listWords[listWordsIndex];
-  
-  console.log('listWordsToLearn : ', listWordsToLearn)
-
   const [wordData, setWordData] = useState([]);
 
   useEffect(() => {
@@ -32,8 +30,6 @@ function Home() {
 
     loadWordsData();
   }, [listWordsToLearn]);
-
-  console.log("Données importées :", wordData);
   const [activity, setActivity] = useState('choose') 
   
   let component;
@@ -46,11 +42,11 @@ function Home() {
     }
     else if (activity === 'test')
     {
-      component = (<ListWords listWords={wordData} cibleSrc='test'/>);
+      component = (<ListWords indexList={listWordsIndex} listWords={wordData} cibleSrc='test'/>);
     }
     else if (activity === 'exercise')
     {
-      component = (<ListWords listWords={wordData} cibleSrc='result'/>);
+      component = (<ListWords indexList={listWordsIndex} listWords={wordData} cibleSrc='result'/>);
     }
   
     function handleClickTest(){
@@ -60,7 +56,8 @@ function Home() {
       setActivity('exercise');
     }
   return (
-    <div className='exercise'>{component}</div>
+    <div className='exercise'>
+      <h2>Mots à apprendre pour le 12 décembre</h2>{component}</div>
     
   );
 }

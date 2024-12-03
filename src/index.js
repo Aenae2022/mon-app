@@ -14,7 +14,7 @@ ReactDOM.createRoot(root).render(
     <Route path="/" element={<Survey />} />
     <Route path="dictation">
           <Route path="word">
-            <Route path=":exercise" element={<App />} />
+            <Route path=":listIndex/:wordIndex/:exercise" element={<App />} />
           </Route>
           <Route path="list">
             <Route path=":listWordsIndex" element={<Home />} />

@@ -1,4 +1,5 @@
 .lettersContainer{
+ 
     display: flex;
     flex-wrap: wrap;
     align-content: center;
@@ -37,7 +38,9 @@
     transition: transform 0.2s ease;
   }
   
-  
+  .lettersBox{
+    width: 100%;
+  }
   
   
   

@@ -1,12 +1,17 @@
 import { useState, useRef } from "react"
+import { useNavigate } from "react-router-dom"
 import "../../css/exercice/exercice.css"
+import "../../css/exercice/dictation/listWords.css"
 import SoundButton from "./SoundButton"
 import { cleanString, shuffleArray } from "../../config/utilitaires"
 
 
-export default function ListWords({ listWords , cibleSrc}) {
+
+export default function ListWords({ listWords , cibleSrc, indexList}) {
+    let navigate = useNavigate()
     const [indiceWord, setIndiceWord]=useState(0)
   const shuffledListWords = shuffleArray([...listWords])
+  
   const [wordsDatas, setWordsDatas] = useState(shuffledListWords)
   const inputRef = useRef()
   const [status, setStatus] = useState('working')
@@ -132,8 +137,11 @@ export default function ListWords({ listWords , cibleSrc}) {
     setCible('result')
   }
 
-
-
+  function handleClickApprendre(w){
+    const wordIndex = listWords.findIndex((obj) => obj.word === w.word);
+    const redirectionWord = '/dictation/word/'+indexList+'/'+wordIndex+'/1';
+    navigate(redirectionWord)
+  }
 
   if(cible === 'test')
   {
@@ -155,22 +163,30 @@ export default function ListWords({ listWords , cibleSrc}) {
   }
   else {
     return (<>
-    <h2>résultat</h2>
-    <ul>{wordsDatas.map((w)=>{
+    
+    <ul>{wordsDatas.map((w, i)=>{
         let myClassName='';
-        //let myContent;
-
-        if(w.test !== ''){
-            if(w.test === 'ok') {
-                myClassName='learn'
-            }
-            else {
+        let myContent = null;
+        
+        if(w.test !== 'ok'){
+            if(w.test === 'nope') {
                 myClassName='notLearn'
             }
+            myContent =(<input
+                className="chooseButton"
+                type="button"
+                value="Apprendre"
+                onClick={()=> handleClickApprendre(w)}
+              />)
         }
+        else {
+            myClassName='learn'
+        }
+
+        
         
         return (
-        <li className={`wordInList ${myClassName}`}>{w.word}</li>
+        <li key={w.word} className={`wordInList ${myClassName}`}>{w.word} {myContent}</li>
     )})}
 
 

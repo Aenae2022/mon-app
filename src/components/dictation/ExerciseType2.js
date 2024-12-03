@@ -9,8 +9,9 @@ import "../../css/exercice/dictation/exercice.css"
 export default function ExerciseType2({
   word,
   additionalLetters,
-  nextExercise,
-  setValidate, setRetry, setNext, setStatus
+  setValidate,
+  setRetry,
+  setStatus,
 }) {
   let navigate = useNavigate()
   const myLetters = word + additionalLetters
@@ -24,7 +25,7 @@ export default function ExerciseType2({
   }, {})
   const letterIds = Object.keys(letters)
   const lettersBoxOrder = ["letterBox-1", "letterBox-2"]
-
+  
   // Fonction de mélange (Fisher-Yates Shuffle)
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -48,8 +49,7 @@ export default function ExerciseType2({
     },
   }
   const [lettersBox, setLettersBox] = useState(initialLettersBox)
-
-
+  
   const handleDrop = (item, targetBoxId, targetIndex) => {
     setLettersBox((prevDatas) => {
       const sourceBoxId = Object.keys(prevDatas).find((boxId) =>
@@ -100,60 +100,49 @@ export default function ExerciseType2({
           },
         }
       }
+
+
     })
+    
   }
 
   React.useEffect(() => {
     setValidate(() => () => {
-    const studentAnswer = lettersBox["letterBox-2"].letterIds
-      .map((lId) => {
-        return letters[lId].content
-      })
-      .toString()
-      .replace(/,/g, "")
-
-    if (studentAnswer === word) {
-      setStatus("ok")
-    } else {
-      setStatus("nope")
-    }
-  });
-  setRetry(() => () => {
-    console.log("Recommencer")
-    setLettersBox(() => {
-      setStatus("working")
-      return initialLettersBox
-    })
-  });
-
-  setNext(() => () => {
-    let redirection = "/"
-    if (nextExercise !== 0) {
-      redirection = "/dictation/:exercise" + nextExercise
-    }
-    navigate(redirection)
+      const studentAnswer = lettersBox['letterBox-2'].letterIds
+        .map((lId) => letters[lId].content)
+        .join(""); // .join("") au lieu de .toString().replace(/,/g, "")
+        console.log('studentAnswer : ' , studentAnswer)
+      if (studentAnswer === word) {
+        setStatus("ok");
+      } else {
+        setStatus("nope");
+      }
     });
-  }, [setValidate, setRetry, setNext]);
+    setRetry(() => () => {
+      setLettersBox(() => {
+        setStatus("working")
+        return initialLettersBox
+      })
+    });
+  }, [setValidate, setRetry, lettersBox])
 
   return (
     <DndProvider backend={HTML5Backend}>
-      
-        <h3>Ecris le mot à apprendre à l'aide des lettres proposées</h3>
-        {lettersBoxOrder.map((letterBoxId) => {
-          const letterBox = lettersBox[letterBoxId]
-          const myLetters = letterBox.letterIds.map(
-            (letterId) => letters[letterId],
-          )
-          return (
-            <LettersBox
-              key={letterBox.id}
-              letterBox={letterBox}
-              letters={myLetters}
-              onDrop={handleDrop}
-            />
-          )
-        })}
-       
+      <h3>Ecris le mot à apprendre à l'aide des lettres proposées</h3>
+      {lettersBoxOrder.map((letterBoxId) => {
+        const letterBox = lettersBox[letterBoxId]
+        const myLetters = letterBox.letterIds.map(
+          (letterId) => letters[letterId],
+        )
+        return (
+          <LettersBox
+            key={letterBox.id}
+            letterBox={letterBox}
+            letters={myLetters}
+            onDrop={handleDrop}
+          />
+        )
+      })}
     </DndProvider>
   )
 }

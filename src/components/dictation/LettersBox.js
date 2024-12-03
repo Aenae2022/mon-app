@@ -43,8 +43,6 @@ function LettersBox({ letterBox, letters, onDrop }) {
       requestAnimationFrame(() => {
         const index = calculateTargetIndex(offset)
         if (targetIndex !== index) {
-          console.log("targetIndex :", targetIndex)
-          console.log("index :", index)
           setTargetIndex(index)
         }
       })

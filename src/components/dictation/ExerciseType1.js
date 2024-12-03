@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import "../../css/exercice/exercice.css"
 
-export default function ExerciseType1({word, nextExercise, setValidate, setRetry, setNext, setStatus}) {
+export default function ExerciseType1({word, nextExercise, setValidate, setRetry,  setStatus, infoUrl}) {
   
   const inputRef = useRef(); // Permet de référencer l'input text
   let navigate = useNavigate()
@@ -33,16 +33,16 @@ export default function ExerciseType1({word, nextExercise, setValidate, setRetry
       setStatus('working')
     });
 
-    setNext(() => () => {
-      let redirection = "/"
+    /*setNext(() => () => {
+      let redirection = "/dictation/list/"+infoUrl.listIndex
       if (nextExercise !== 0) {
-        redirection = "/dictation/" + nextExercise
+        redirection = "/dictation/word/"+infoUrl.listIndex + '/'+infoUrl.wordIndex + '/'+nextExercise
       }
       navigate(redirection)
-      });
+      });*/
 
 
-  }, [setValidate, setRetry, setNext]);
+  }, [setValidate, setRetry]);
   return (
     <>
         <h3>Recopie le mot à apprendre</h3>

@@ -8,8 +8,9 @@ export default function ExerciseType3({
   nextExercise,
   setValidate,
   setRetry,
-  setNext,
+  //setNext,
   setStatus,
+  infoUrl
 }) {
   const inputRef = useRef() // Permet de référencer l'input text
   let navigate = useNavigate()
@@ -79,14 +80,14 @@ export default function ExerciseType3({
       setStatus("working")
     })
 
-    setNext(() => () => {
-      let redirection = "/"
+    /*setNext(() => () => {
+      let redirection = "/dictation/list/"+infoUrl.listIndex
       if (nextExercise !== 0) {
-        redirection = "/dictation/" + nextExercise
+        redirection = "/dictation/word/"+infoUrl.listIndex + '/'+infoUrl.wordIndex + '/'+nextExercise
       }
       navigate(redirection)
-    })
-  }, [setValidate, setRetry, setNext])
+    })*/
+  }, [setValidate, setRetry])
   return (
     <>
       <h3>Ecris le mot à apprendre</h3>
