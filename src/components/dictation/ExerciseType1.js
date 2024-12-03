@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 
-import "../../css/exercice/exercice.css"
+import "../../css/exercice/dictation/exercice.css"
 
 export default function ExerciseType1({word, nextExercise, setValidate, setRetry,  setStatus, infoUrl}) {
   

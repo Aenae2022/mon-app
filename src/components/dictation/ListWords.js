@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import "../../css/exercice/exercice.css"
+import "../../css/exercice/dictation/exercice.css"
 import "../../css/exercice/dictation/listWords.css"
 import SoundButton from "./SoundButton"
 import { cleanString, shuffleArray } from "../../config/utilitaires"

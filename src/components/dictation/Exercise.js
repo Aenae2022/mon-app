@@ -1,6 +1,6 @@
 
 
-import "../../css/exercice/exercice.css"
+import "../../css/exercice/dictation/exercice.css"
 
 export default function Exercise({ children, nextExercise, onValidate, onRetry, onNext, status,  }) {
   
