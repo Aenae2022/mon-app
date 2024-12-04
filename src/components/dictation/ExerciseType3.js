@@ -1,17 +1,14 @@
 import React, { useState, useRef } from "react"
-import { useNavigate } from "react-router-dom"
 import { cleanString } from "../../config/utilitaires"
 import "../../css/exercice/dictation/exercice.css"
 
 export default function ExerciseType3({
   word,
-  nextExercise,
   setValidate,
   setRetry,
   setStatus,
 }) {
   const inputRef = useRef()
-  let navigate = useNavigate()
   const [isWriting, setIsWriting] = useState(false)
   const handleClick = () => {
     setIsWriting(!isWriting)

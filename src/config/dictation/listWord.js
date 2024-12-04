@@ -2,8 +2,8 @@ const prefix = "./config/dictation/words/"
 const listWords = [
   [
     {
-      name: "bonjour",
-      src: "bonjourDatas.js",
+      name: "ensuite",
+      src: "ensuiteDatas.js",
     },
     {
       name: "ar mor",

@@ -23,7 +23,6 @@ export default function ExerciseType4({
     })
 
     setRetry(() => () => {
-      console.log("Réessayer déclenché depuis l'enfant !")
       inputRef.current.value = ""
       setStatus("working")
     })

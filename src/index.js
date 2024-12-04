@@ -11,7 +11,7 @@ ReactDOM.createRoot(root).render(
   <StrictMode>
   <BrowserRouter>
     <Routes>
-    <Route path="/" element={<Survey />} />
+    <Route path="/" element={<Survey/>} />
     <Route path="dictation">
           <Route path="word">
             <Route path=":listIndex/:wordIndex/:exercise" element={<App />} />
