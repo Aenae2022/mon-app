@@ -1,14 +1,11 @@
-import { useParams } from 'react-router-dom'
- 
+import { NavLink } from "react-router"
 function Survey() {
-    const { questionNumber } = useParams()
- 
-    return (
-        <div>
-            <h1>Questionnaire 🧮</h1>
-            <h2>Question {questionNumber}</h2>
-        </div>
-    )
+  return (
+    <nav>
+      <NavLink to="/dictation/list/0">
+        Mots à apprendre pour le 12 décembre
+      </NavLink>
+    </nav>
+  )
 }
-
 export default Survey

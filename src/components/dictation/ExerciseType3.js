@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { cleanString } from "../../config/utilitaires"
+
 import "../../css/exercice/dictation/exercice.css"
 
 export default function ExerciseType3({
@@ -8,9 +8,11 @@ export default function ExerciseType3({
   nextExercise,
   setValidate,
   setRetry,
+  //setNext,
   setStatus,
+  infoUrl
 }) {
-  const inputRef = useRef()
+  const inputRef = useRef() // Permet de référencer l'input text
   let navigate = useNavigate()
   const [isWriting, setIsWriting] = useState(false)
   const handleClick = () => {
@@ -27,6 +29,7 @@ export default function ExerciseType3({
         src="/asset/picture/icons/oeilBouton.png"
         alt="oeil"
       />{" "}
+      {/* Icône de lecture */}
     </button>
   )
   const componentModel = <h2 className="model">{word}</h2>
@@ -47,7 +50,7 @@ export default function ExerciseType3({
     <input
       type="text"
       className="inputText"
-      ref={inputRef}
+      ref={inputRef} // Associe le ref à cet input
       value={text}
       onChange={(e) => setText(e.target.value)}
     />
@@ -55,7 +58,15 @@ export default function ExerciseType3({
   React.useEffect(() => {
     setValidate(() => () => {
       const userInput = inputRef.current.value
-      const cleanedInput = cleanString(userInput)
+      // Fonction pour épurer la chaîne saisie
+      const cleanString = (str) => {
+        return str
+          .trim() // Supprime les espaces au début et à la fin
+          .replace(/\s+/g, " ") // Remplace les multiples espaces par un seul
+      }
+
+      const cleanedInput = cleanString(userInput) // Nettoie la chaîne
+
       if (cleanedInput === word) {
         setStatus("ok")
       } else {
@@ -68,6 +79,14 @@ export default function ExerciseType3({
       inputRef.current.value = ""
       setStatus("working")
     })
+
+    /*setNext(() => () => {
+      let redirection = "/dictation/list/"+infoUrl.listIndex
+      if (nextExercise !== 0) {
+        redirection = "/dictation/word/"+infoUrl.listIndex + '/'+infoUrl.wordIndex + '/'+nextExercise
+      }
+      navigate(redirection)
+    })*/
   }, [setValidate, setRetry])
   return (
     <>

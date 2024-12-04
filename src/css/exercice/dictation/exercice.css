@@ -1,44 +1,44 @@
-.exercise {
-  border: 3px green solid;
-  margin: 10px;
-  border-radius: 30px;
-  box-shadow: 20px 20px 10px darkgrey;
-  padding-right: 50px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  border-right: 6px ridge rgb(0, 206, 0);
-  border-bottom: 6px ridge rgb(0, 206, 0);
-  border-top: 6px ridge rgb(209, 10, 209);
-  border-left: 6px ridge rgb(209, 10, 209);
-  margin: auto;
-}
-.buttonExercise {
-  display: inline-block;
-  transform: scale(1.6);
-  border-radius: 10px;
-  margin-left: 60px;
-}
-.exerciseNav {
-  margin-top: 20px;
-}
-.imgExercise {
-  width: 60px;
-  margin-bottom: 20px;
-}
+.exercise{
+    border: 3px green solid;
+    margin: 10px;
+    border-radius: 30px;
+    box-shadow: 20px 20px 10px darkgrey;
+    padding-right: 50px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            border-right: 6px ridge rgb(0, 206, 0);
+            border-bottom: 6px ridge rgb(0, 206, 0);
+            border-top: 6px ridge rgb(209, 10, 209);
+            border-left: 6px ridge rgb(209, 10, 209);
+            margin : auto;
+  }
+  .buttonExercise{
+    display: inline-block;
+    transform: scale(1.6);
+    border-radius: 10px;
+    margin-left: 60px;
+  }
+  .exerciseNav{
+    margin-top: 20px;
+  }
+  .imgExercise{
+    width: 60px;
+    margin-bottom: 20px;
+  }
 
-.titleExercise {
-  display: flex;
-  justify-content: space-around;
-}
+  .titleExercise{
+    display: flex;
+    justify-content:space-around;
+  }
 
-.soundButton {
-  width: 50px;
-}
-.soundBox {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-.inputText {
-  font-size: 1.5em;
-}
+  .soundButton{
+    width: 50px;
+  }
+  .soundBox{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  .inputText{
+    font-size: 1.5em;
+  }

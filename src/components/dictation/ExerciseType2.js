@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import LettersBox from "./LettersBox"
 import { useNavigate } from "react-router-dom"
-import { shuffleArray } from "../../config/utilitaires"
+
 import "../../css/exercice/dictation/exercice.css"
 
 export default function ExerciseType2({
@@ -25,7 +25,17 @@ export default function ExerciseType2({
   }, {})
   const letterIds = Object.keys(letters)
   const lettersBoxOrder = ["letterBox-1", "letterBox-2"]
-  const shuffledLetterIds = shuffleArray([...letterIds])
+  
+  // Fonction de mélange (Fisher-Yates Shuffle)
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)) // Index aléatoire entre 0 et i
+      ;[array[i], array[j]] = [array[j], array[i]] // Échange des éléments
+    }
+    return array
+  }
+
+  const shuffledLetterIds = shuffleArray([...letterIds]) // Copie du tableau pour préserver l'original
   const initialLettersBox = {
     "letterBox-1": {
       id: "letterBox-1",
@@ -39,7 +49,7 @@ export default function ExerciseType2({
     },
   }
   const [lettersBox, setLettersBox] = useState(initialLettersBox)
-
+  
   const handleDrop = (item, targetBoxId, targetIndex) => {
     setLettersBox((prevDatas) => {
       const sourceBoxId = Object.keys(prevDatas).find((boxId) =>
@@ -51,8 +61,11 @@ export default function ExerciseType2({
       //si déplacement intra lettersBox
       if (sourceBoxId === targetBoxId) {
         const nextSourceBoxIds = [
+          // Éléments avant le point d’insertion :
           ...newSourceBoxIds.slice(0, targetIndex),
+          // Nouvel élément :
           item.id,
+          // Éléments après le point d’insertion :
           ...newSourceBoxIds.slice(targetIndex),
         ]
 
@@ -67,10 +80,14 @@ export default function ExerciseType2({
         //déplacement inter lettersBox
         const newTargetBoxIds = prevDatas[targetBoxId].letterIds
         const nextTargetBoxIds = [
+          // Éléments avant le point d’insertion :
           ...newTargetBoxIds.slice(0, targetIndex),
+          // Nouvel élément :
           item.id,
+          // Éléments après le point d’insertion :
           ...newTargetBoxIds.slice(targetIndex),
         ]
+
         return {
           ...prevDatas,
           [sourceBoxId]: {
@@ -83,26 +100,30 @@ export default function ExerciseType2({
           },
         }
       }
+
+
     })
+    
   }
 
   React.useEffect(() => {
     setValidate(() => () => {
-      const studentAnswer = lettersBox["letterBox-2"].letterIds
+      const studentAnswer = lettersBox['letterBox-2'].letterIds
         .map((lId) => letters[lId].content)
-        .join("")
+        .join(""); // .join("") au lieu de .toString().replace(/,/g, "")
+        console.log('studentAnswer : ' , studentAnswer)
       if (studentAnswer === word) {
-        setStatus("ok")
+        setStatus("ok");
       } else {
-        setStatus("nope")
+        setStatus("nope");
       }
-    })
+    });
     setRetry(() => () => {
       setLettersBox(() => {
         setStatus("working")
         return initialLettersBox
       })
-    })
+    });
   }, [setValidate, setRetry, lettersBox])
 
   return (

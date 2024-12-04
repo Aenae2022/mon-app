@@ -1,5 +1,5 @@
-import React from "react"
-import { useDrag } from "react-dnd"
+import React from "react";
+import { useDrag } from "react-dnd";
 
 function Letter({ letter }) {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -8,7 +8,7 @@ function Letter({ letter }) {
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }))
+  }));
 
   return (
     <div
@@ -21,7 +21,7 @@ function Letter({ letter }) {
     >
       {letter.content}
     </div>
-  )
+  );
 }
 
-export default Letter
+export default Letter;

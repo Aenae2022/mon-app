@@ -1,9 +1,9 @@
-.wordInList {
-  font-size: 1.5em;
+.wordInList{
+    font-size: 1.5em;
 }
-.learn {
-  color: rgb(33, 204, 33);
+.learn{
+    color: rgb(33, 204, 33);
 }
-.notLearn {
-  color: red;
+.notLearn{
+    color: red;
 }
