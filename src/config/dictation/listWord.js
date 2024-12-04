@@ -1,4 +1,4 @@
-const prefix = "./config/dictation/words/"
+
 const listWords = [
   [
     {
