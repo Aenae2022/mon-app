@@ -1,12 +1,27 @@
-import { Link } from 'react-router-dom'
- 
-function Header() {
-    return (
-        <nav>
-            <Link to="/">Accueil</Link>
-            <Link to="/survey/42">Questionnaire</Link>
-        </nav>
-    )
-}
 
-export default Header
+import "../../css/header/header.css"
+import "../../App.css"
+export default function Header() {
+  return (
+    <header>
+      <div className="headerElement">
+        <button
+          //onClick= retour page accueil
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+        >
+          <img
+            className="welcomeIcon"
+            src="/asset/picture/icons/classeur.png"
+            alt="classeurs"
+          />
+        </button>
+      </div>
+      <div className="headerElement">
+        <div className="welcomeMessage">
+          <h1>Ma renkell</h1>
+          <h2>Outils pour la classe</h2>
+        </div>
+      </div>
+    </header>
+  )
+}
