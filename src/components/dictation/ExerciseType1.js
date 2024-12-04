@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useEffect} from "react"
 import "../../css/exercice/dictation/exercice.css"
 import { cleanString } from "../../config/utilitaires"
 export default function ExerciseType1({
@@ -9,7 +9,7 @@ export default function ExerciseType1({
 }) {
   const inputRef = useRef()
 
-  React.useEffect(() => {
+useEffect(() => {
     setValidate(() => () => {
       const userInput = inputRef.current.value
       const cleanedInput = cleanString(userInput) // Nettoie la chaîne

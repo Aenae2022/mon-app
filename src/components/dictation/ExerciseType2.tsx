@@ -1,8 +1,7 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import LettersBox from "./LettersBox"
-import { useNavigate } from "react-router-dom"
 
 import "../../css/exercice/dictation/exercice.css"
 
@@ -13,7 +12,7 @@ export default function ExerciseType2({
   setRetry,
   setStatus,
 }) {
-  let navigate = useNavigate()
+  
   const myLetters = word + additionalLetters
   const letters = myLetters.split("").reduce((acc, char, index) => {
     const id = `letter-${index + 1}`
@@ -104,7 +103,7 @@ export default function ExerciseType2({
     
   }
 
-  React.useEffect(() => {
+useEffect(() => {
     setValidate(() => () => {
       const studentAnswer = lettersBox['letterBox-2'].letterIds
         .map((lId) => letters[lId].content)
