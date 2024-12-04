@@ -36,8 +36,7 @@ export default function ExerciseType3({
         className="soundButton"
         src="/asset/picture/icons/modifier.png"
         alt="crayon"
-      />{" "}
-      {/* Icône de lecture */}
+      />
     </button>
   )
   const componentInput = (
