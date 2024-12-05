@@ -1,4 +1,5 @@
-import SoundButton from "../../components/dictation/SoundButton.js"
+import React from "react"
+import SoundButton from "./SoundButton.tsx"
 
 function TitleExercise({ text, soundSrc }) {
   return (

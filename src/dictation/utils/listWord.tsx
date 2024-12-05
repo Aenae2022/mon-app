@@ -3,7 +3,7 @@ const listWords = [
   [
     {
       name: "ensuite",
-      src: "ensuiteDatas.js",
+      src: "ensuiteDatas",
     },
     {
       name: "ar mor",

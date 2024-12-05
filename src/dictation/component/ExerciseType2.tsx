@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
-import LettersBox from "./LettersBox"
-import { shuffleArray } from "../../config/utilitaires"
-import "../../css/exercice/dictation/exercice.css"
+
+import "../css/exercice.css"
+import { shuffleArray } from "../../core/utils/utilitaires.tsx"
+import LettersBox from "./LettersBox.tsx"
 
 export default function ExerciseType2({
   word,
@@ -38,13 +39,14 @@ export default function ExerciseType2({
   }
   const [lettersBox, setLettersBox] = useState(initialLettersBox)
 
-  const handleDrop = (item, targetBoxId, targetIndex) => {
+  const handleDrop = (item: { id: any }, targetBoxId: string, targetIndex: any) => {
     setLettersBox((prevDatas) => {
       const sourceBoxId = Object.keys(prevDatas).find((boxId) =>
         prevDatas[boxId].letterIds.includes(item.id),
       )
+      if (!sourceBoxId) return prevDatas;
       const newSourceBoxIds = prevDatas[sourceBoxId].letterIds.filter(
-        (letterId) => letterId !== item.id,
+        (letterId: any) => letterId !== item.id,
       )
       //si déplacement intra lettersBox
       if (sourceBoxId === targetBoxId) {
@@ -83,7 +85,8 @@ export default function ExerciseType2({
     })
   }
 
-  React.useEffect(() => {
+
+useEffect(() => {
     setValidate(() => () => {
       const studentAnswer = lettersBox["letterBox-2"].letterIds
         .map((lId) => letters[lId].content)

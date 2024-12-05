@@ -1,12 +1,14 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
-import App from "./pages/Dictation/App";
-import PageGen from "./pages/PageGen";  
-import Home from "./pages/Dictation/Home";
+import PageGen from "./core/page/PageGen.tsx";
+import App from "./dictation/page/App.tsx";
+import Home from "./dictation/page/Home.tsx";
 
 const root = document.getElementById("root");
-
+if (!root) {
+  throw new Error("Root element not found in the DOM");
+}
 ReactDOM.createRoot(root).render(
   <StrictMode>
   <BrowserRouter>
@@ -17,7 +19,8 @@ ReactDOM.createRoot(root).render(
             <Route path=":listIndex/:wordIndex/:exercise" element={<App />} />
           </Route>
           <Route path="list">
-            <Route path=":listWordsIndex" element={<Home />} />
+          <Route path=":listIndex/:wordIndex/:exercise" element={<Home />} />
+
           </Route>
         </Route>
     </Routes>

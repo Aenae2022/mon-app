@@ -1,9 +1,12 @@
 import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import "../../css/exercice/dictation/exercice.css"
-import "../../css/exercice/dictation/listWords.css"
-import SoundButton from "./SoundButton"
-import { cleanString, shuffleArray } from "../../config/utilitaires"
+import "../css/exercice.css"
+import "../css/listWords.css"
+import SoundButton from "./SoundButton.tsx"
+import { cleanString, shuffleArray } from "../../core/utils/utilitaires.tsx"
+import React from "react"
+
+
 
 export default function ListWords({ listWords, cibleSrc, indexList }) {
   let navigate = useNavigate()
@@ -11,7 +14,7 @@ export default function ListWords({ listWords, cibleSrc, indexList }) {
   const shuffledListWords = shuffleArray([...listWords])
 
   const [wordsDatas, setWordsDatas] = useState(shuffledListWords)
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
   const [status, setStatus] = useState("working")
   const [cible, setCible] = useState(cibleSrc)
   const nextWord = indiceWord + 1 < wordsDatas.length ? true : false
@@ -80,7 +83,7 @@ export default function ListWords({ listWords, cibleSrc, indexList }) {
   }
 
   function handleClickValidate() {
-    const userInput = inputRef.current.value
+    const userInput = inputRef.current?inputRef.current.value:'';
     const cleanedInput = cleanString(userInput) // Nettoie la chaîne
 
     if (cleanedInput === wordsDatas[indiceWord].word) {
@@ -121,7 +124,8 @@ export default function ListWords({ listWords, cibleSrc, indexList }) {
   function handleClickNext() {
     setIndiceWord(() => {
       const nextIndice = indiceWord + 1
-      inputRef.current.value = ""
+      if(inputRef.current){
+      inputRef.current.value = ""}
       setStatus("working")
       return nextIndice
     })
@@ -160,7 +164,7 @@ export default function ListWords({ listWords, cibleSrc, indexList }) {
         <ul>
           {wordsDatas.map((w, i) => {
             let myClassName = ""
-            let myContent = null
+            let myContent:any;
             if (w.test !== "ok") {
               if (w.test === "nope") {
                 myClassName = "notLearn"

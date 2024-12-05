@@ -1,6 +1,7 @@
-import React, { useRef } from "react"
-import { cleanString } from "../../config/utilitaires"
-import "../../css/exercice/dictation/exercice.css"
+import React, { useEffect, useRef } from "react"
+
+import "../css/exercice.css"
+import { cleanString } from "../../core/utils/utilitaires.tsx"
 
 export default function ExerciseType4({
   word,
@@ -8,11 +9,11 @@ export default function ExerciseType4({
   setRetry,
   setStatus,
 }) {
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValidate(() => () => {
-      const userInput = inputRef.current.value
+      const userInput = inputRef.current?inputRef.current.value:'';
       const cleanedInput = cleanString(userInput)
 
       if (cleanedInput === word) {
@@ -23,7 +24,7 @@ export default function ExerciseType4({
     })
 
     setRetry(() => () => {
-      inputRef.current.value = ""
+      if(inputRef.current) inputRef.current.value = ""
       setStatus("working")
     })
   }, [setValidate, setRetry])

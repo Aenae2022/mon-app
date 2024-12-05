@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react"
-import { cleanString } from "../../config/utilitaires"
-import "../../css/exercice/dictation/exercice.css"
+import React, { useState, useRef, useEffect } from "react"
+
+import "../css/exercice.css"
+import { cleanString } from "../../core/utils/utilitaires.tsx"
 
 export default function ExerciseType3({
   word,
@@ -8,7 +9,7 @@ export default function ExerciseType3({
   setRetry,
   setStatus,
 }) {
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
   const [isWriting, setIsWriting] = useState(false)
   const handleClick = () => {
     setIsWriting(!isWriting)
@@ -48,9 +49,9 @@ export default function ExerciseType3({
       onChange={(e) => setText(e.target.value)}
     />
   )
-  React.useEffect(() => {
+  useEffect(() => {
     setValidate(() => () => {
-      const userInput = inputRef.current.value
+      const userInput = inputRef.current?inputRef.current.value:'';
       const cleanedInput = cleanString(userInput)
       if (cleanedInput === word) {
         setStatus("ok")
@@ -60,8 +61,9 @@ export default function ExerciseType3({
     })
 
     setRetry(() => () => {
-      console.log("Réessayer déclenché depuis l'enfant !")
-      inputRef.current.value = ""
+      if(inputRef.current){
+        inputRef.current.value = ""
+      }
       setStatus("working")
     })
   }, [setValidate, setRetry])

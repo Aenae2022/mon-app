@@ -1,6 +1,7 @@
 
-import "../../css/header/header.css"
+import "../css/header.css"
 import "../../App.css"
+import React from "react"
 export default function Header() {
   return (
     <header>

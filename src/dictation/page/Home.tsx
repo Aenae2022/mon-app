@@ -1,26 +1,32 @@
 import "../../App.css"
-import "../../css/exercice/dictation/exercice.css"
-import "../../css/exercice/dictation/home.css"
+import "../css/exercice.css"
+import "../css/home.css"
 
 import { useParams } from "react-router"
 import { useEffect, useState } from "react"
-import listWords from "../../config/dictation/listWord"
-import ListWords from "../../components/dictation/ListWords"
+import listWords from "../utils/listWord.tsx"
+import ListWords from "../component/ListWords.tsx"
+import React from "react"
 
 function Home() {
-  let { listWordsIndex } = useParams()
-  const listWordsToLearn = listWords[listWordsIndex]
-  const [wordData, setWordData] = useState([])
+  type WordDataType = {
+    exercises: object,
+    audioSrc: string,
+    test: string,
+  };
+  let { listWordsIndex } = useParams<{ listWordsIndex?: string }>()
+  const listWordsToLearn = listWordsIndex ? listWords[listWordsIndex] : []
+  const [wordData, setWordData] = useState<WordDataType[]>([])
 
   useEffect(() => {
     const loadWordsData = async () => {
       try {
         const imports = await Promise.all(
           listWordsToLearn.map(
-            (word) => import(`../../config/dictation/words/${word.src}`),
+            (word: { src: any }) => import(`../utils/words/${word.src}.tsx`),
           ),
         )
-        setWordData(imports.map((module) => module.default)) // Extraire les données exportées par défaut
+        setWordData(imports.map((module) => module.default));
       } catch (error) {
         console.error("Erreur lors du chargement des fichiers :", error)
       }
@@ -28,6 +34,9 @@ function Home() {
 
     loadWordsData()
   }, [listWordsToLearn])
+
+
+
   const [activity, setActivity] = useState("choose")
 
   let component
@@ -73,5 +82,6 @@ function Home() {
     </div>
   )
 }
+
 
 export default Home
