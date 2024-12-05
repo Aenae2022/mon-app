@@ -3,10 +3,10 @@ import "../css/exercice.css"
 import "../css/home.css"
 
 import { useParams } from "react-router"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import listWords from "../utils/listWord.tsx"
 import ListWords from "../component/ListWords.tsx"
-import React from "react"
+
 
 function Home() {
   type WordDataType = {
@@ -23,7 +23,7 @@ function Home() {
       try {
         const imports = await Promise.all(
           listWordsToLearn.map(
-            (word: { src: any }) => import(`../utils/words/${word.src}.tsx`),
+            (word: { src: any }) => import(`../utils/words/${word.src}`),
           ),
         )
         setWordData(imports.map((module) => module.default));

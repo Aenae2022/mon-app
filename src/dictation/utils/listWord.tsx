@@ -3,11 +3,11 @@ const listWords = [
   [
     {
       name: "ensuite",
-      src: "ensuiteDatas",
+      src: "ensuiteDatas.tsx",
     },
     {
       name: "ar mor",
-      src: "arMorDatas",
+      src: "arMorDatas.tsx",
     },
   ],
 ]

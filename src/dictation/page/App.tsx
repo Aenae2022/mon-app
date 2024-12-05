@@ -29,7 +29,7 @@ export default function App() {
       if (listWordsToLearn && wordIndex !== undefined) {
         try {
           const module = await import(
-            `../../config/dictation/words/${listWordsToLearn[wordIndex].src}`
+            `../utils/words/${listWordsToLearn[wordIndex].src}`
           )
           setDatas(module.default)
           setIsLoading(false)
