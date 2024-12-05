@@ -54,6 +54,7 @@ function LettersBox({ letterBox, letters, onDrop }) {
     <div className="lettersBox">
       <h2>{letterBox.title}</h2>
       <div
+      className="lettersContainer"
         ref={(node) => {
           drop(node);
           if (node) {

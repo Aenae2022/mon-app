@@ -48,7 +48,7 @@ export default function App() {
     return <div className="App">Chargement...</div>
   }
   if (datas && exercise) {
-    let nextExercise: string | number
+    let nextExercise: number
 
     if (parseInt(exercise) === Object.keys(datas.exercises).length) {
       nextExercise = 0
@@ -56,7 +56,83 @@ export default function App() {
       nextExercise = parseInt(exercise) + 1
     }
 
-    // Rest of the function...
+    const titleExercise = {
+      title: "Apprendre un mot",
+      subtitle: "étape " + exercise + "/" + Object.keys(datas.exercises).length,
+    }
+
+    function handleNext() {
+      let redirection = "/dictation/list/" + infoUrl.listIndex
+      if (nextExercise !== 0) {
+        redirection =
+          "/dictation/word/" +
+          infoUrl.listIndex +
+          "/" +
+          infoUrl.wordIndex +
+          "/" +
+          nextExercise
+      }
+      setStatus("working")
+      navigate(redirection)
+    }
+    const componentName = datas.exercises["exercise-" + exercise].component
+
+    let component
+    let infoUrl = { listIndex: listIndex, wordIndex: wordIndex }
+    if (componentName === "ExerciseType1") {
+      component = (
+        <ExerciseType1
+          word={datas.word}
+          setValidate={setValidate}
+          setRetry={setRetry}
+          setStatus={setStatus}
+        />
+      )
+    } else if (componentName === "ExerciseType2") {
+      component = (
+        <ExerciseType2
+          word={datas.word}
+          additionalLetters={
+            datas.exercises["exercise-" + exercise].additionalLetters
+          }
+          setValidate={setValidate}
+          setRetry={setRetry}
+          setStatus={setStatus}
+        />
+      )
+    } else if (componentName === "ExerciseType3") {
+      component = (
+        <ExerciseType3
+          word={datas.word}
+          setValidate={setValidate}
+          setRetry={setRetry}
+          setStatus={setStatus}
+        />
+      )
+    } else if (componentName === "ExerciseType4") {
+      component = (
+        <ExerciseType4
+          word={datas.word}
+          setValidate={setValidate}
+          setRetry={setRetry}
+          setStatus={setStatus}
+        />
+      )
+    }
+    return (
+      <div className="App">
+        <TitleExercise text={titleExercise} soundSrc={datas.audioSrc} />
+        <Exercise
+          onValidate={onValidate}
+          onRetry={onRetry}
+          onNext={handleNext}
+          nextExercise={nextExercise}
+          status={status}
+        >
+          {component}
+        </Exercise>
+      </div>
+    )
   } else {
     console.log("chemin 2")
     return <div className="App">coucou</div>
